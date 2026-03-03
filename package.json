@@ -4,7 +4,13 @@
   "description": "CLI tool for testing and evaluating AI coding agents",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "templates",
+    "README.md"
+  ],
   "scripts": {
+    "prepublishOnly": "tsc",
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "dev": "tsx src/cli/index.ts",
