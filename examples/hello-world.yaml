@@ -1,0 +1,24 @@
+id: hello-world
+name: "Hello World Echo Test"
+description: "Basic test that verifies an agent can echo output"
+
+agent:
+  type: command
+  command: "echo 'Hello from agent'"
+
+steps:
+  - action: check_output
+    expect: "Hello"
+
+evaluate:
+  method: rules
+  passThreshold: 100
+  rules:
+    - type: contains
+      target: stdout
+      value: "Hello from agent"
+      weight: 1
+    - type: exit_code
+      target: exit
+      value: "0"
+      weight: 1

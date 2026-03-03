@@ -1,0 +1,24 @@
+id: eve-status-check
+name: "EVE Status Check"
+description: "Verify EVE CLI can show status without crashing"
+
+agent:
+  type: command
+  command: "cd /Users/yongrean/Downloads/nightbot && npx tsx src/cli.ts status"
+
+steps:
+  - action: check_output
+    expect: "Ollama"
+
+evaluate:
+  method: rules
+  passThreshold: 50
+  rules:
+    - type: exit_code
+      target: exit
+      value: "0"
+      weight: 2
+    - type: regex
+      target: stdout
+      value: "(Ollama|queue|reports)"
+      weight: 1
