@@ -44,7 +44,7 @@ function evaluateRule(rule: RuleCheck, output: RunOutput): RuleResult {
 			};
 
 		case "regex": {
-			const re = new RegExp(rule.value);
+			const re = new RegExp(rule.value, "i");
 			const match = re.test(target);
 			return {
 				rule,

@@ -32,7 +32,10 @@ export async function probe(scenarios: Scenario[], options: ProbeOptions): Promi
 			output = await runScenario(scenario);
 
 			if (options.verbose) {
-				console.log(chalk.gray(`    stdout: ${output.stdout.slice(0, 100).replace(/\n/g, "\\n")}`));
+				console.log(chalk.gray(`    stdout: ${output.stdout.slice(0, 300).replace(/\n/g, "\\n")}`));
+				if (output.stderr) {
+					console.log(chalk.gray(`    stderr: ${output.stderr.slice(0, 200).replace(/\n/g, "\\n")}`));
+				}
 				console.log(chalk.gray(`    exit: ${output.exitCode}, duration: ${output.durationMs}ms`));
 			}
 

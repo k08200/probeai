@@ -33,7 +33,7 @@ export async function evaluateWithLlm(
 		});
 
 		if (!response.ok) {
-			return { score: 0, reasoning: `Ollama error: ${response.status}`, passed: false };
+			return { score: 0, reasoning: `Ollama error: ${response.status} — model "${model}" at ${ollamaHost}`, passed: false };
 		}
 
 		const data = (await response.json()) as { response: string };

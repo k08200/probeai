@@ -52,6 +52,10 @@ export interface EvaluationConfig {
 	rules?: RuleCheck[];
 	/** Pass threshold (0-100) */
 	passThreshold?: number;
+	/** Ollama host for LLM evaluation */
+	ollamaHost?: string;
+	/** Model to use for LLM evaluation */
+	model?: string;
 }
 
 /** A single rule-based check */

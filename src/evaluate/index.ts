@@ -37,7 +37,7 @@ export async function evaluate(config: EvaluationConfig, output: RunOutput): Pro
 
 	if (config.method === "llm") {
 		const rubric = config.rubric ?? "Evaluate the agent's output quality and correctness.";
-		const llmResult = await evaluateWithLlm(rubric, output);
+		const llmResult = await evaluateWithLlm(rubric, output, config.ollamaHost, config.model);
 		return {
 			score: llmResult.score,
 			passed: llmResult.score >= threshold,
@@ -53,7 +53,7 @@ export async function evaluate(config: EvaluationConfig, output: RunOutput): Pro
 
 	const ruleResults = evaluateRules(rules, output);
 	const ruleScore = calculateRuleScore(ruleResults);
-	const llmResult = await evaluateWithLlm(rubric, output);
+	const llmResult = await evaluateWithLlm(rubric, output, config.ollamaHost, config.model);
 
 	const score = Math.round((ruleScore + llmResult.score) / 2);
 
