@@ -4,6 +4,18 @@ Test and evaluate AI coding agents with YAML scenarios.
 
 ProbeAI runs your AI agent, captures its output, and scores it using rule-based checks and LLM judges. Get a pass/fail verdict with detailed reports.
 
+<p align="center">
+  <img src="docs/terminal-output.png" alt="ProbeAI running 3 scenarios — all passed" width="700" />
+  <br />
+  <em>Run scenarios locally with <code>probeai run</code></em>
+</p>
+
+<p align="center">
+  <img src="docs/github-actions.png" alt="ProbeAI GitHub Actions — all green" width="700" />
+  <br />
+  <em>Automate with GitHub Actions — get green checks on every push</em>
+</p>
+
 ## Install
 
 ```bash
