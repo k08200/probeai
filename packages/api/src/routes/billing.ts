@@ -57,7 +57,7 @@ export async function billingRoutes(app: FastifyInstance) {
     if (!user) return reply.code(404).send({ error: "User not found" });
 
     const testCount = await prisma.testRun.count({ where: { userId } });
-    const planConfig = PLANS[user.plan];
+    const planConfig = PLANS[user.plan as keyof typeof PLANS];
 
     return {
       plan: user.plan,
