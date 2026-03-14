@@ -1,8 +1,10 @@
 import type { FastifyInstance } from "fastify";
 import { prisma } from "../db.js";
+import { executeTestRun } from "../engine/worker.js";
+import { DEFAULT_SCENARIOS } from "../engine/scenarios.js";
 
 export async function testRoutes(app: FastifyInstance) {
-  // POST /api/tests — Create a new test run
+  // POST /api/tests — Create and start a test run
   app.post("/", async (request, reply) => {
     const { agentId, userId, scenarioCount } = request.body as {
       agentId: string;
@@ -10,14 +12,21 @@ export async function testRoutes(app: FastifyInstance) {
       scenarioCount?: number;
     };
 
+    const count = Math.min(scenarioCount ?? DEFAULT_SCENARIOS.length, DEFAULT_SCENARIOS.length);
+
     const testRun = await prisma.testRun.create({
       data: {
         agentId,
         userId,
-        scenarioCount: scenarioCount ?? 100,
+        scenarioCount: count,
         status: "QUEUED",
       },
     });
+
+    // Fire and forget — run in background
+    executeTestRun(testRun.id).catch((err) =>
+      console.error(`[engine] Background execution failed for ${testRun.id}:`, err),
+    );
 
     return reply.code(201).send(testRun);
   });
