@@ -1,0 +1,29 @@
+{
+  "name": "@probeai/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ProbeAI API server",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "lint": "biome check src/",
+    "test": "echo 'no tests yet'"
+  },
+  "dependencies": {
+    "@probeai/core": "workspace:*",
+    "fastify": "^5.3.3",
+    "@fastify/cors": "^11.0.1",
+    "@prisma/client": "^6.8.2",
+    "stripe": "^18.1.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.5",
+    "@types/node": "^25.3.0",
+    "prisma": "^6.8.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "type": "module"
+}

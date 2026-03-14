@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  plan      Plan     @default(FREE)
+  stripeId  String?  @unique
+  agents    Agent[]
+  testRuns  TestRun[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Agent {
+  id        String    @id @default(uuid())
+  name      String
+  endpoint  String
+  apiKey    String?
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  testRuns  TestRun[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model TestRun {
+  id             String        @id @default(uuid())
+  status         TestStatus    @default(QUEUED)
+  score          Int?
+  passCount      Int?
+  failCount      Int?
+  warnCount      Int?
+  scenarioCount  Int           @default(100)
+  agentId        String
+  agent          Agent         @relation(fields: [agentId], references: [id])
+  userId         String
+  user           User          @relation(fields: [userId], references: [id])
+  evaluations    Evaluation[]
+  startedAt      DateTime?
+  completedAt    DateTime?
+  createdAt      DateTime      @default(now())
+}
+
+model Evaluation {
+  id         String   @id @default(uuid())
+  testRunId  String
+  testRun    TestRun  @relation(fields: [testRunId], references: [id])
+  scenario   String
+  category   String
+  verdict    Verdict
+  reason     String?
+  evidence   String?
+  confidence Float?
+  latencyMs  Int?
+  createdAt  DateTime @default(now())
+}
+
+enum Plan {
+  FREE
+  PRO
+  TEAM
+  ENTERPRISE
+}
+
+enum TestStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum Verdict {
+  PASS
+  FAIL
+  WARNING
+}
